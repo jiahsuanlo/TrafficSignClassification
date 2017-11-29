@@ -129,15 +129,21 @@ def augment_data(X,Y,size_ratio):
         Y_aug: output augmented labels 
     """
     nb,nh,nw,nc= X.shape
-    nb_aug= int(nb*(1+size_ratio))
+    nb_aug= int(nb*(size_ratio))
     nb_aug4= nb_aug//4
     
     inds= np.random.permutation(nb)
     
     
+    X_flip= flip_images(X[inds[0:nb_aug4],...])
+    X_crop= crop_and_resize(X[inds[nb_aug4:2*nb_aug4],...])
+    X_rot= rotate_images(X[inds[2*nb_aug4:3*nb_aug4],...])
+    X_bright= adjust_brightness(X[inds[3*nb_aug4:4*nb_aug4],...])
     
+    X_aug= np.concatenate((X_flip, X_crop, X_rot, X_bright, X))
+    Y_aug= np.concatenate((Y[inds[0:4*nb_aug4],...], Y))
     
-    
+    return X_aug, Y_aug
     
 def prep_images(X):
     """ preprocess images
@@ -197,7 +203,12 @@ def test_augment_image():
     img_rot.show()
     img_bright.show()
     
-        
+    X_train_aug, Y_train_aug= augment_data(X_train, Y_train, 0.25)
+    print("X_train shape=", X_train.shape)
+    print("X_train_aug shape=", X_train_aug.shape)
+    print("Y_train shape=", Y_train.shape)
+    print("Y_train_aug shape=", Y_train_aug.shape)
+    
     
     
 #%% main
