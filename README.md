@@ -1,6 +1,12 @@
 # TrafficSignClassification
 
-Traffic sign classification project. 
+Traffic sign classification practice project. 
+
+## File Listing:
+
+**tsc_util.py** : Utility functions.
+**tsc_model_seq.py**: an example script using a sequential cnn model to classify traffic lights.
+**tsc_model_resnet50.py**: an example script using the ResNet50 architecture to classify traffic lights.
 
 ## Dataset
 A sample tranning dataset was obtained from the following link: 
